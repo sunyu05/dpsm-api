@@ -1,0 +1,21 @@
+# SpringBoot配置
+spring:
+  application:
+    name: dpsm-api
+  # profile
+  profiles:
+    active: dev
+  # jackson
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    default-property-inclusion: non_null
+
+# 服务器配置
+server:
+  port: 8080
+  servlet:
+    context-path: /dpsm
+
+# 日志配置
+logging:
+  config: classpath:logback-dpsm.xml
