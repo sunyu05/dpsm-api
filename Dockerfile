@@ -1,5 +1,5 @@
-# 基础镜像，可以先执行 docker pull openjdk:21-jdk-slim
-FROM openjdk:21-jre-slim
+# 基础镜像，使用 Eclipse Temurin Java 21 JRE
+FROM eclipse-temurin:21-jre
 
 ENV TZ=Asia/Shanghai
 ENV JAVA_OPTS="-Xms128m -Xmx512m -Djava.security.egd=file:/dev/./urandom"
