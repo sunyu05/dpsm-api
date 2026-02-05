@@ -7,10 +7,7 @@ phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
-      - |
-        # 检查ECR仓库是否存在，不存在则创建
-        aws ecr describe-repositories --repository-names $IMAGE_REPO_NAME --region $AWS_DEFAULT_REGION || \
-        aws ecr create-repository --repository-name $IMAGE_REPO_NAME --image-scanning-configuration scanOnPush=true --region $AWS_DEFAULT_REGION
+      - aws ecr describe-repositories --repository-names $IMAGE_REPO_NAME --region $AWS_DEFAULT_REGION || aws ecr create-repository --repository-name $IMAGE_REPO_NAME --image-scanning-configuration scanOnPush=true --region $AWS_DEFAULT_REGION
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
   build:
     commands:
