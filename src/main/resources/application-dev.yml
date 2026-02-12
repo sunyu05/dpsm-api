@@ -1,9 +1,3 @@
 # 服务器配置
 server:
   port: 8090
-
-# Swagger
-tellus:
-  apidoc:
-    title: DPSM API
-    description: 配達管理システム（Delivery and Pickup Status Management System）

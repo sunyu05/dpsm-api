@@ -23,6 +23,10 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ConfigDemoController {
 
+    private static final String ENABLED_KEY = "enabled";
+    private static final String MESSAGE_KEY = "message";
+    private static final String CONFIG_VERSION_KEY = "configVersion";
+
     private final AppConfigService appConfigService;
 
     @GetMapping("/database-config")
@@ -37,7 +41,7 @@ public class ConfigDemoController {
         response.put("connectionTimeout", connectionTimeout);
         response.put("maxConnections", maxConnections);
         response.put("enableQueryLogging", enableQueryLogging);
-        response.put("configVersion", appConfigService.getCurrentConfigVersion());
+        response.put(CONFIG_VERSION_KEY, appConfigService.getCurrentConfigVersion());
         
         log.info("Database config requested - timeout: {}, maxConn: {}, logging: {}", 
                 connectionTimeout, maxConnections, enableQueryLogging);
@@ -57,7 +61,7 @@ public class ConfigDemoController {
         response.put("enableNewFeature", enableNewFeature);
         response.put("enableDebugMode", enableDebugMode);
         response.put("maintenanceMode", maintenanceMode);
-        response.put("configVersion", appConfigService.getCurrentConfigVersion());
+        response.put(CONFIG_VERSION_KEY, appConfigService.getCurrentConfigVersion());
         
         log.info("Feature flags requested - newFeature: {}, debug: {}, maintenance: {}", 
                 enableNewFeature, enableDebugMode, maintenanceMode);
@@ -77,7 +81,7 @@ public class ConfigDemoController {
         response.put("rateLimit", rateLimit);
         response.put("timeout", timeout);
         response.put("retryAttempts", retryAttempts);
-        response.put("configVersion", appConfigService.getCurrentConfigVersion());
+        response.put(CONFIG_VERSION_KEY, appConfigService.getCurrentConfigVersion());
         
         log.info("API config requested - rateLimit: {}, timeout: {}, retries: {}", 
                 rateLimit, timeout, retryAttempts);
@@ -96,8 +100,8 @@ public class ConfigDemoController {
         
         response.put("ttl", ttl);
         response.put("maxSize", maxSize);
-        response.put("enabled", enabled);
-        response.put("configVersion", appConfigService.getCurrentConfigVersion());
+        response.put(ENABLED_KEY, enabled);
+        response.put(CONFIG_VERSION_KEY, appConfigService.getCurrentConfigVersion());
         
         log.info("Cache config requested - ttl: {}, maxSize: {}, enabled: {}", 
                 ttl, maxSize, enabled);
@@ -113,15 +117,15 @@ public class ConfigDemoController {
         
         if (maintenanceMode) {
             response.put("status", "MAINTENANCE");
-            response.put("message", "System is currently under maintenance");
-            response.put("configVersion", appConfigService.getCurrentConfigVersion());
+            response.put(MESSAGE_KEY, "System is currently under maintenance");
+            response.put(CONFIG_VERSION_KEY, appConfigService.getCurrentConfigVersion());
             
             log.warn("Maintenance mode is enabled");
             return ResponseEntity.status(503).body(response);
         } else {
             response.put("status", "OPERATIONAL");
-            response.put("message", "System is operational");
-            response.put("configVersion", appConfigService.getCurrentConfigVersion());
+            response.put(MESSAGE_KEY, "System is operational");
+            response.put(CONFIG_VERSION_KEY, appConfigService.getCurrentConfigVersion());
             
             return ResponseEntity.ok(response);
         }
@@ -139,14 +143,14 @@ public class ConfigDemoController {
             }
             
             response.put("_metadata", Map.of(
-                "configVersion", appConfigService.getCurrentConfigVersion(),
+                CONFIG_VERSION_KEY, appConfigService.getCurrentConfigVersion(),
                 "totalKeys", appConfigService.getAllConfigurationKeys().size(),
-                "enabled", true
+                ENABLED_KEY, true
             ));
         } else {
             response.put("_metadata", Map.of(
-                "enabled", false,
-                "message", "AppConfig not enabled"
+                ENABLED_KEY, false,
+                MESSAGE_KEY, "AppConfig not enabled"
             ));
         }
         

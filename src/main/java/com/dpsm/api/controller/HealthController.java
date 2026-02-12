@@ -27,6 +27,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class HealthController {
 
+    private static final String STATUS_KEY = "status";
+
     private final AppConfigService appConfigService;
     private final ServiceDiscoveryService serviceDiscoveryService;
 
@@ -39,7 +41,7 @@ public class HealthController {
     @GetMapping("/health")
     public ResponseEntity<Map<String, Object>> health() {
         Map<String, Object> response = new HashMap<>();
-        response.put("status", "UP");
+        response.put(STATUS_KEY, "UP");
         response.put("application", applicationName);
         response.put("timestamp", LocalDateTime.now());
         response.put("region", awsRegion);
@@ -48,9 +50,9 @@ public class HealthController {
         Map<String, Object> appConfigStatus = new HashMap<>();
         appConfigStatus.put("enabled", appConfigService.isAppConfigEnabled());
         if (appConfigService.isAppConfigEnabled()) {
-            appConfigStatus.put("status", "CONNECTED");
+            appConfigStatus.put(STATUS_KEY, "CONNECTED");
         } else {
-            appConfigStatus.put("status", "DISABLED");
+            appConfigStatus.put(STATUS_KEY, "DISABLED");
         }
         response.put("appConfig", appConfigStatus);
         
@@ -58,9 +60,9 @@ public class HealthController {
         Map<String, Object> serviceDiscoveryStatus = new HashMap<>();
         serviceDiscoveryStatus.put("enabled", serviceDiscoveryService.isServiceDiscoveryEnabled());
         if (serviceDiscoveryService.isServiceDiscoveryEnabled()) {
-            serviceDiscoveryStatus.put("status", "CONNECTED");
+            serviceDiscoveryStatus.put(STATUS_KEY, "CONNECTED");
         } else {
-            serviceDiscoveryStatus.put("status", "DISABLED");
+            serviceDiscoveryStatus.put(STATUS_KEY, "DISABLED");
         }
         response.put("serviceDiscovery", serviceDiscoveryStatus);
         
@@ -128,7 +130,7 @@ public class HealthController {
             response.put("allConfigKeys", appConfigService.getAllConfigurationKeys());
             
         } else {
-            response.put("status", "AppConfig not enabled");
+            response.put(STATUS_KEY, "AppConfig not enabled");
         }
         
         return ResponseEntity.ok(response);
@@ -141,15 +143,15 @@ public class HealthController {
         if (appConfigService.isAppConfigEnabled()) {
             try {
                 appConfigService.manualRefresh();
-                response.put("status", "Configuration refresh initiated");
+                response.put(STATUS_KEY, "Configuration refresh initiated");
                 response.put("timestamp", LocalDateTime.now());
             } catch (Exception e) {
                 log.error("Failed to refresh configuration", e);
-                response.put("status", "Configuration refresh failed");
+                response.put(STATUS_KEY, "Configuration refresh failed");
                 response.put("error", e.getMessage());
             }
         } else {
-            response.put("status", "AppConfig not enabled");
+            response.put(STATUS_KEY, "AppConfig not enabled");
         }
         
         return ResponseEntity.ok(response);

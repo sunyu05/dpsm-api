@@ -12,13 +12,16 @@
 
     <groupId>com.dpsm</groupId>
     <artifactId>dpsm-api</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>${revision}</version>
     <name>dpsm-api</name>
     <description>dpsm-api</description>
 
     <properties>
+        <revision>1.0.0</revision>
         <java.version>21</java.version>
         <awssdk.version>2.41.19</awssdk.version>
+        <jakarta.version>3.0.0</jakarta.version>
+        <micrometer.version>1.16.3</micrometer.version>
     </properties>
 
     <dependencies>
@@ -37,7 +40,7 @@
         <dependency>
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
-            <version>3.0.0</version>
+            <version>${jakarta.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -68,6 +71,7 @@
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-registry-cloudwatch2</artifactId>
+            <version>${micrometer.version}</version>
         </dependency>
 
         <dependency>
