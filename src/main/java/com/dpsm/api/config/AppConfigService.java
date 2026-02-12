@@ -41,7 +41,9 @@ public class AppConfigService {
             // 拒绝策略
             new ThreadPoolExecutor.AbortPolicy()
     );
+
     private final ObjectMapper objectMapper = new ObjectMapper();
+
     /**
      * 配置缓存
      */
@@ -56,6 +58,7 @@ public class AppConfigService {
     private String configurationProfile;
     private AppConfigDataClient appConfigDataClient;
     private String configurationToken;
+
     /**
      * 配置版本
      */
